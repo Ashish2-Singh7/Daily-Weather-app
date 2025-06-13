@@ -1,6 +1,6 @@
 export const getLocationBackground = async (location: string | undefined): Promise<string> => {
     if (location) {
-        const res = await fetch(`http://localhost:3000/api/image?location=${encodeURIComponent(location)}`);
+        const res = await fetch(`https://daily-weather-app-five.vercel.app/api/image?location=${encodeURIComponent(location)}`);
         const data = await res.json();
         return data.image;
     }

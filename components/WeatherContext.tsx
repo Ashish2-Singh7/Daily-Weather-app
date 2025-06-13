@@ -42,7 +42,7 @@ export const WeatherProvider = ({ children }: ThemeProviderProps) => {
     const fetchWeatherDetails = async (location: LocationData) => {
         setIsLoading(true);
         const { latitude: lat, longitude: lon } = location;
-        const response = await fetch(`http://localhost:3000/api/weather?query=${lat},${lon}`, {
+        const response = await fetch(`https://daily-weather-app-five.vercel.app/api/weather?query=${lat},${lon}`, {
             next: {
                 revalidate: 600
             }
