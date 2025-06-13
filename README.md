@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# <div>
+  <h1>Daily Weather App <img src="./public/logo-2.png" width="50" alt="profile" align="left"></h1>
+</div> 
 
-## Getting Started
+# 
 
-First, run the development server:
+A sleek and minimal weather application built using **Next.js 15**, **TypeScript**, and modern APIs to deliver real-time weather data and location-based background images.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🌍 Get current weather info for any city
+- 🖼️ Dynamic background image based on searched location (via Unsplash)
+- 🔄 Auto-refresh weather every 6 minutes (ISR)
+- 🌐 Fully responsive and accessible UI
+- ⚡ Fast and optimized using server-side APIs with caching
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **APIs Used**:
+  - [WeatherAPI.com](https://www.weatherapi.com/) – for real-time weather data
+  - [Unsplash API](https://unsplash.com/developers) – for location-based background images
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## **🚀Live Preview**
+   
+For Live Preview, Visit the [link](https://daily-weather-app-five.vercel.app/)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+_Last updated: 13-06-2025_
