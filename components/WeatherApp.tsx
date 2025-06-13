@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import SearchBar from './SearchBar';
 import WeatherDetails from './WeatherDetails';
 import LeftSection from './LeftSection';
+import WeatherDetailsSkeleton from './Skeleton/WeatherDetailsSkeleton';
 
-const WeatherApp = () => {
-
+const WeatherApp = async ({ city }: { city: string | undefined }) => {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 transition-colors duration-200">
             <div className="max-w-7xl mx-auto">
@@ -25,14 +25,16 @@ const WeatherApp = () => {
                 </header>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Left Side - Weather Cards */}
-                    <LeftSection />
-
                     {/* Right Side - Search and Weather Details */}
                     <div className="lg:col-span-2">
                         <SearchBar />
-                        <WeatherDetails />
+                        <Suspense fallback={<WeatherDetailsSkeleton />}>
+                            <WeatherDetails city={city} />
+                        </Suspense>
                     </div>
+
+                    {/* Left Side - Weather Cards */}
+                    <LeftSection />
                 </div>
             </div>
         </div>

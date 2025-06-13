@@ -1,10 +1,11 @@
 import WeatherApp from '@/components/WeatherApp'
 import React from 'react'
 
-const page = () => {
+const page = async ({ searchParams }: { searchParams: Promise<{ query: string }> }) => {
+  const query = (await searchParams).query;
   return (
     <div>
-      <WeatherApp />
+      <WeatherApp city={query} />
     </div>
   )
 }

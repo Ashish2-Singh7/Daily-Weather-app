@@ -1,13 +1,9 @@
 "use client";
-import { Cloud, Droplets, Thermometer, Wind } from 'lucide-react';
+import { Cloud, Compass, Droplets, Eye, Gauge, MapPin, Thermometer, Wind } from 'lucide-react';
 import React, { createContext, useContext, useState } from 'react';
 
 type contextProps = {
-    location: LocationData | null,
-    error: string | null,
     isLoading: boolean
-    setLocation: React.Dispatch<React.SetStateAction<LocationData | null>>;
-    setError: React.Dispatch<React.SetStateAction<string | null>>;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     fetchWeatherDetails: (location: { latitude: number, longitude: number }) => void;
     weatherCards: WeatherCard[]
@@ -28,8 +24,8 @@ interface ThemeProviderProps {
 }
 
 interface LocationData {
-    latitude: number;
-    longitude: number;
+    latitude?: number;
+    longitude?: number;
 }
 
 type WeatherCard = {
@@ -43,83 +39,71 @@ export const WeatherProvider = ({ children }: ThemeProviderProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [weatherCards, setWeatherCards] = useState<WeatherCard[]>([]);
 
-    const formStructuredData = (res) => {
-        const structuredWeatherData = {
-            locationName: res.location.name,
-            region: res.location.region,
-            country: res.location.country,
-            localTime: res.location.localtime,
-
-            temperatureCelsius: `${res.current.temp_c}°C`,
-            feelsLikeCelsius: res.current.feelslike_c,
-            condition: res.current.condition.text,
-            conditionIcon: `https:${res.current.condition.icon}`,
-
-            humidityPercent: `${res.current.humidity}%`,
-            cloudCoveragePercent: `${res.current.cloud}%`,
-
-            windSpeedKph: `${res.current.wind_kph} km/h`,
-            windDirection: res.current.wind_dir,
-            gustSpeedKph: res.current.gust_kph,
-
-            visibilityKm: res.current.vis_km,
-            pressureMb: res.current.pressure_mb,
-            uvIndex: res.current.uv,
-
-            // Additional understandable technical fields
-            dewPointCelsius: res.current.dewpoint_c,
-            heatIndexCelsius: res.current.heatindex_c,
-            windChillCelsius: res.current.windchill_c,
-
-            isDay: Boolean(res.current.is_day),
-            lastUpdated: res.current.last_updated,
-        };
-        return structuredWeatherData;
-    }
-
-    const fetchWeatherDetails = async (location: { latitude: number, longitude: number }) => {
+    const fetchWeatherDetails = async (location: LocationData) => {
         setIsLoading(true);
         const { latitude: lat, longitude: lon } = location;
-        const weatherData = await fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&q=${lat},${lon}`, {
+        const response = await fetch(`http://localhost:3000/api/weather?query=${lat},${lon}`, {
             next: {
                 revalidate: 600
             }
         });
-
-        const res = await weatherData.json();
-        const structuredData = formStructuredData(res);
+        const weatherData = await response.json();
 
         setWeatherCards([
             {
                 title: "Temperature",
-                value: structuredData.temperatureCelsius,
+                value: weatherData.temperatureCelsius,
                 icon: <Thermometer className="h-8 w-8" />,
                 description: "Current temperature in your area"
             },
             {
                 title: "Humidity",
-                value: structuredData.humidityPercent,
+                value: weatherData.humidityPercent,
                 icon: <Droplets className="h-8 w-8" />,
                 description: "Moisture level in the air"
             },
             {
                 title: "Wind Speed",
-                value: structuredData.windSpeedKph,
+                value: weatherData.windSpeedKph,
                 icon: <Wind className="h-8 w-8" />,
                 description: "Current wind conditions"
             },
             {
                 title: "Cloud Cover",
-                value: structuredData.cloudCoveragePercent,
+                value: weatherData.cloudCoveragePercent,
                 icon: <Cloud className="h-8 w-8" />,
                 description: "Sky coverage percentage"
+            },
+            {
+                title: "Visibility",
+                value: weatherData.visibilityKm,
+                icon: <Eye className="h-8 w-8" />,
+                description: "How far you can see clearly"
+            },
+            {
+                title: "Wind Direction",
+                value: weatherData.windDirection,
+                icon: <Compass className="h-8 w-8" />,
+                description: "Direction wind is coming from"
+            },
+            {
+                title: "Pressure",
+                value: weatherData.pressureMb,
+                icon: <Gauge className="h-8 w-8" />,
+                description: "Atmospheric pressure reading"
+            },
+            {
+                title: "Location",
+                value: `${weatherData.locationName}, ${weatherData.country}`,
+                icon: <MapPin className="h-8 w-8" />,
+                description: "Current weather location"
             }
         ])
         setIsLoading(false);
 
     }
     return (
-        <WeatherContext value={{isLoading, fetchWeatherDetails, weatherCards }}>
+        <WeatherContext value={{ isLoading, fetchWeatherDetails, weatherCards, setIsLoading }}>
             {children}
         </WeatherContext>
     );

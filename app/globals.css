@@ -46,16 +46,3 @@
 .read-the-docs {
   color: #888;
 }
-
-
-/* @layer base {
-  * {
-    border-color: var(--tw-border-opacity, 1) var(--tw-border-color, #e5e7eb);
-    outline-color: rgba(59, 130, 246, 0.5);
-  }
-
-  body {
-    background-color: var(--background, #fff);
-    color: var(--foreground, #000);
-  }
-} */
